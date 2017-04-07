@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(version: 20170407195429) do
     t.string   "color"
     t.string   "print"
     t.string   "material"
-    t.decimal  "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "price",      precision: 8, scale: 2
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.index ["style_id"], name: "index_products_on_style_id", using: :btree
   end
 
