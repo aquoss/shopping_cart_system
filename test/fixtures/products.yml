@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  style: one
+  color: MyString
+  print: MyString
+  material: MyString
+  price: 9.99
+
+two:
+  style: two
+  color: MyString
+  print: MyString
+  material: MyString
+  price: 9.99
