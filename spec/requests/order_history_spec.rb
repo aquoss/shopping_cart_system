@@ -14,7 +14,7 @@ RSpec.describe "OrderHistory", type: :request do
     @ordered_product2 = OrderedProduct.create(product_id: @product2.id, order_id: @order.id, quantity: 1, size: "S")
   end
 
-  describe "GET /order_history" do
+  describe "GET order_history_path" do
     it "returns an empty array when there are no past orders" do
       get order_history_path
       expect(response.status).to eq 200
