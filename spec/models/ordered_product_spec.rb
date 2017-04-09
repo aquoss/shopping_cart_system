@@ -7,7 +7,7 @@ RSpec.describe OrderedProduct, type: :model do
   end
 
   let(:user) { User.create(first_name: "Amber") }
-  let(:order) { Order.create(user_id: user.id, number_of_products: 2, total_price: 75.00) }
+  let(:order) { Order.create(user_id: user.id, number_of_items: 2, total_price: 75.00) }
   let(:style) { Style.create(title: "Cotton Crew") }
   let(:product) { Product.create(style_id: style.id, color: "red") }
   it "can load and save" do

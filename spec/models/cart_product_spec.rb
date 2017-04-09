@@ -7,7 +7,7 @@ RSpec.describe CartProduct, type: :model do
   end
 
   let(:user) { User.create(first_name: "Amber") }
-  let(:shopping_cart) { ShoppingCart.create(user_id: user.id, total_price: 75.00, number_of_products: 2) }
+  let(:shopping_cart) { ShoppingCart.create(user_id: user.id, total_price: 75.00, number_of_items: 2) }
   let(:style) { Style.create(title: "Cotton Crew") }
   let(:product) { Product.create(style_id: style.id, color: "red") }
   it "can load and save" do

@@ -7,7 +7,7 @@ RSpec.describe Order, type: :model do
 
   let(:user) { User.create(first_name: "Amber") }
   it "can load and save" do
-    Order.create(user_id: user.id, number_of_products: 2, total_price: 75.00)
+    Order.create(user_id: user.id, number_of_items: 2, total_price: 75.00)
     expect(Order.count).to eq 1
   end
 end
