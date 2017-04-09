@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170409030326) do
+ActiveRecord::Schema.define(version: 20170409031537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,10 +48,10 @@ ActiveRecord::Schema.define(version: 20170409030326) do
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.decimal  "total_price",        precision: 8, scale: 2
-    t.integer  "number_of_products"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.decimal  "total_price",     precision: 8, scale: 2
+    t.integer  "number_of_items"
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
 
@@ -67,10 +67,10 @@ ActiveRecord::Schema.define(version: 20170409030326) do
   end
 
   create_table "shopping_carts", force: :cascade do |t|
-    t.integer  "number_of_products"
-    t.decimal  "total_price",        precision: 8, scale: 2
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.integer  "number_of_items"
+    t.decimal  "total_price",     precision: 8, scale: 2
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "user_id"
   end
 
