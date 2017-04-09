@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407210817) do
+ActiveRecord::Schema.define(version: 20170409031537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,16 +40,18 @@ ActiveRecord::Schema.define(version: 20170407210817) do
     t.integer  "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "quantity"
+    t.string   "size"
     t.index ["order_id"], name: "index_ordered_products_on_order_id", using: :btree
     t.index ["product_id"], name: "index_ordered_products_on_product_id", using: :btree
   end
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.decimal  "total_price",        precision: 8, scale: 2
-    t.integer  "number_of_products"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.decimal  "total_price",     precision: 8, scale: 2
+    t.integer  "number_of_items"
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
 
@@ -65,17 +67,18 @@ ActiveRecord::Schema.define(version: 20170407210817) do
   end
 
   create_table "shopping_carts", force: :cascade do |t|
-    t.integer  "number_of_products"
-    t.decimal  "total_price",        precision: 8, scale: 2
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.integer  "number_of_items"
+    t.decimal  "total_price",     precision: 8, scale: 2
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "user_id"
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
   end
 
   create_table "styles", force: :cascade do |t|
     t.string   "title"
     t.string   "department"
-    t.string   "class"
+    t.string   "style_class"
     t.string   "business_group"
     t.text     "description"
     t.datetime "created_at",     null: false
@@ -86,9 +89,8 @@ ActiveRecord::Schema.define(version: 20170407210817) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "shopping_cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "token"
   end
 
@@ -99,4 +101,5 @@ ActiveRecord::Schema.define(version: 20170407210817) do
   add_foreign_key "ordered_products", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "styles"
+  add_foreign_key "shopping_carts", "users"
 end
