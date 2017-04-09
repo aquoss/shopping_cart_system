@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   post '/shopping_carts/:shopping_cart_id/cart_products/:cart_product_id', to: 'cart_products#create'
   delete '/shopping_carts/:shopping_cart_id/cart_products/:cart_product_id', to: 'cart_products#destroy'
-
-  get '/order_history', to: 'orders#index', as: 'order_history_path'
+  get '/users/:user_id/orders', to: 'orders#index', as: 'order_history_path'
+  post 'users/:user_id/orders', to: 'orders#create'
 
 end
