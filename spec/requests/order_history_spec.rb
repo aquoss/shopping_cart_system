@@ -6,11 +6,11 @@ RSpec.describe "OrderHistory", type: :request do
     @order = Order.create(user_id: user.id, number_of_items: 3, total_price: 80.00)
 
     style1 = Style.create(title:"The Cotton Crew")
-    @product1 = Product.create(style: style1.id, color: "red", material: "cotton", print: "heathered", price: 25.00)
+    @product1 = Product.create(style_id: style1.id, color: "red", material: "cotton", print: "heathered", price: 25.00)
     @ordered_product1 = OrderedProduct.create(product_id: @product1.id, order_id: @order.id, quantity: 2, size: "M")
 
     style2 = Style.create(title:"The Sport Dress")
-    @product2 = Product.create(style: style2.id, color: "blue", material: "polyester", print: "solid", price: 30.00)
+    @product2 = Product.create(style_id: style2.id, color: "blue", material: "polyester", print: "solid", price: 30.00)
     @ordered_product2 = OrderedProduct.create(product_id: @product2.id, order_id: @order.id, quantity: 1, size: "S")
   end
 

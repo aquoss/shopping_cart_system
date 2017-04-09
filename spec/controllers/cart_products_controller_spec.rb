@@ -5,13 +5,13 @@ RSpec.describe CartProductsController, type: :controller do
     user = User.create(first_name: "Amber")
     @shopping_cart = ShoppingCart.create(user_id: user.id, number_of_items: 0)
     style = Style.create(title:"The Cotton Crew")
-    @product = Product.create(style: style.id, color: "red", price: 35.00)
+    @product = Product.create(style_id: style.id, color: "red", price: 35.00)
   end
 
   describe "POST#create" do
     it "creates a new product for a cart" do
       expect do
-        post :create, { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" }
+        post :create, params: { cart_product: { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" } }
       end.to change { CartProduct.count }.by 1
 
       expect(CartProduct.last.product_id).to eq @product.id
@@ -21,7 +21,7 @@ RSpec.describe CartProductsController, type: :controller do
     end
 
     it "returns 201 and renders the new product cart association" do
-      post :create, { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" }
+      post :create, params: { cart_product: { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" } }
       expect(response.status).to eq 201
 
       response_jso = JSON.parse(response.body)
@@ -33,7 +33,7 @@ RSpec.describe CartProductsController, type: :controller do
     end
 
     it "updates the shopping cart attributes" do
-      post :create, { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" }
+      post :create, params: { cart_product: { product_id: @product.id, shopping_cart_id: @shopping_cart.id, quantity: 2, size: "M" } }
       expect(@shopping_cart.number_of_items).to change by 2
       expect(@shopping_cart.total_price).to change by(@product.price * 2)
     end
@@ -44,12 +44,12 @@ RSpec.describe CartProductsController, type: :controller do
 
     it "deletes a product from the cart" do
       expect {
-        delete :destroy, { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
+        delete :destroy, params: { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
       }.to change { CartProduct.count }.by(0)
     end
 
     it "returns 200 and renders the deleted product cart association" do
-      delete :destroy, { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
+      delete :destroy, params: { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
       expect(response.status).to eq 200
 
       response_json = JSON.parse(response.body)
@@ -61,7 +61,7 @@ RSpec.describe CartProductsController, type: :controller do
     end
 
     it "updates the shopping cart attributes" do
-      delete :destroy, { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
+      delete :destroy, params: { shopping_cart_id: @shopping_cart, cart_product_id: cart_product.id }
       expect(@shopping_cart.number_of_items).to change by -2
       expect(@shopping_cart.total_price).to change by(-@product.price * 2)
     end
