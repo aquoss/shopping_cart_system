@@ -26,9 +26,9 @@ RSpec.describe "OrderHistory", type: :request do
       expect(response.status).to eq 200
       order_history = JSON[response.body]
       expect(order_history.count).to eq 1
-      expect(order_history[0]["order_number"]).to be present
+      expect(order_history[0]["order_number"]).to be_present
       expect(order_history[0]["number_of_items"]).to eq 3
-      expect(order_history[0]["total_price"]).to eq 80.00
+      expect(order_history[0]["total_price"]).to eq "80.0"
       expect(order_history[0]["date_purchased"]).to eq @order.created_at
 
       expect(order_history[0]["products"][0]["title"]).to eq "The Cotton Crew"

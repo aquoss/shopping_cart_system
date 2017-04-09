@@ -1,14 +1,14 @@
 class OrdersController < ApplicationController
 
   def index
-    orders = Order.where('user_id = ?', params[:user_id])
+    orders = Order.where(user_id: params[:user_id])
     if !orders.nil?
       orders = format_json(orders)
     end
     render json: orders
   end
 
-  def orders_as_json(orders)
+  def format_json(orders)
     order_history = []
     orders.each do |order|
       order_data = {
@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
   def create
     order = Order.new(order_params)
     shopping_cart = ShoppingCart.find_by(user_id: order.user_id)
-    cart_products = CartProduct.where('shopping_cart_id = ?', shopping_cart.id)
+    cart_products = CartProduct.where(shopping_cart_id: shopping_cart.id)
     if enough_inventory?(cart_products)
       create_ordered_products(cart_products, order)
       order.save
@@ -53,8 +53,8 @@ class OrdersController < ApplicationController
 
   def enough_inventory?(cart_products)
     cart_products.each do |cart_product|
-      inventory = Inventory.where('product_id = ? && size = ?', cart_product.product_id, cart_product.size)
-      if (inventory < cart_product.quantity)
+      inventory = Inventory.find_by(product_id: cart_product.product_id, size: cart_product.size)
+      if (inventory.available_inventory < cart_product.quantity)
         return false
       end
     end
@@ -69,7 +69,7 @@ class OrdersController < ApplicationController
   end
 
   def update_inventory(ordered_product)
-    inventory = Inventory.where('product_id = ? && size = ?', ordered_product.product_id, ordered_product.size)
+    inventory = Inventory.find_by(product_id: ordered_product.product_id, size: ordered_product.size)
     inventory.available_inventory -= ordered_product.quantity
   end
 

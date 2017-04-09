@@ -30,7 +30,7 @@ RSpec.describe OrdersController, type: :controller do
         expect(response_json["id"]).to be_present
         expect(response_json["user_id"]).to eq @user.id
         expect(response_json["number_of_items"]).to eq 2
-        expect(response_json["total_price"]).to eq 75.00
+        expect(response_json["total_price"]).to eq "75.0"
       end
 
       it "creates one ordered product per product" do
