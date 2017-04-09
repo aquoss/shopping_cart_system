@@ -14,15 +14,15 @@ RSpec.describe "OrderHistory", type: :request do
     @ordered_product2 = OrderedProduct.create(product_id: @product2.id, order_id: @order.id, quantity: 1, size: "S")
   end
 
-  describe "GET order_history_path" do
+  describe "GET 'users/:user_id/orders'" do
     it "returns an empty array when there are no past orders" do
-      get order_history_path
+      get "/users/#{@order.user_id}/orders"
       expect(response.status).to eq 200
       expect(JSON[response.body]).to eq []
     end
 
-    it "returns a user's order_history" do
-      get order_history_path
+    it "returns a user's order history" do
+      get "/users/#{@order.user_id}/orders"
       expect(response.status).to eq 200
       order_history = JSON[response.body]
       expect(order_history.count).to eq 1
