@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170409031537) do
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.integer  "user_id"
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
   end
 
   create_table "styles", force: :cascade do |t|
@@ -88,9 +89,8 @@ ActiveRecord::Schema.define(version: 20170409031537) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "shopping_cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "token"
   end
 
@@ -101,4 +101,5 @@ ActiveRecord::Schema.define(version: 20170409031537) do
   add_foreign_key "ordered_products", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "styles"
+  add_foreign_key "shopping_carts", "users"
 end

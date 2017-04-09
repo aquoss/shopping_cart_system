@@ -1,5 +1,5 @@
 class AddUserToShoppingCart < ActiveRecord::Migration[5.0]
   def change
-    add_column :shopping_carts, :user_id, :integer
+    add_reference :shopping_carts, :user, foreign_key: true
   end
 end
