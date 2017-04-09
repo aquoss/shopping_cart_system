@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   end
 
   def unauthorize
-    head status: :unauthorized
+    head :unauthorized
     return false
   end
 

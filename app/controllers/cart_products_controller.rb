@@ -12,7 +12,7 @@ class CartProductsController < ApplicationController
     end
   end
 
-  def destory
+  def destroy
     cart_product = CartProduct.find(params[:cart_product_id])
     deleted_cart_product = cart_product.destroy
     shopping_cart = ShoppingCart.find(deleted_cart_product.shopping_cart_id)
@@ -24,7 +24,7 @@ class CartProductsController < ApplicationController
 
   private
   def cart_product_params
-    params.permit(:shopping_cart_id, :product_id, :size, :quantity)
+    params.require(:cart_product).permit(:shopping_cart_id, :product_id, :size, :quantity)
   end
 
 end

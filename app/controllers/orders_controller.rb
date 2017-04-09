@@ -80,7 +80,7 @@ class OrdersController < ApplicationController
 
   private
   def order_params
-    params.permit(:user_id, :total_price, :number_of_items)
+    params.require(:order).permit(:user_id, :total_price, :number_of_items)
   end
 
 end
