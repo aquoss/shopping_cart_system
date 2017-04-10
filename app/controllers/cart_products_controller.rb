@@ -32,5 +32,3 @@ class CartProductsController < ApplicationController
   end
 
 end
-
-### require the parameters in the model (might have to update tests)
