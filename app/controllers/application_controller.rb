@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user
+  # before_action :authenticate_user
 
   private
   def authenticate_user
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   end
 
   def unauthorize
-    head status: :unauthorized
+    head :unauthorized
     return false
   end
 
