@@ -8,6 +8,27 @@ class OrdersController < ApplicationController
     render json: orders
   end
 
+  def create
+    order = Order.new(order_params)
+    if order_saved?(order)
+      render json: order, status: :created
+    else
+      render status: :conflict
+    end
+  end
+
+  def order_saved?(order)
+    shopping_cart = ShoppingCart.find_by(user_id: order.user_id)
+    cart_products = CartProduct.where(shopping_cart_id: shopping_cart.id)
+    if enough_inventory?(cart_products) && !cart_products.empty?
+      order.save
+      create_ordered_products(cart_products)
+      reset_shopping_cart(shopping_cart)
+      return true
+    end
+    false
+  end
+
   def format_json(orders)
     order_history = []
     orders.each do |order|
@@ -17,38 +38,29 @@ class OrdersController < ApplicationController
         total_price: order.total_price,
         date_purchased: order.created_at,
       }
-      products = []
-      order.ordered_products.each do |ordered_product|
-        product_data = {
-          title: ordered_product.product.style.title,
-          size: ordered_product.size,
-          quantity: ordered_product.quantity,
-          attributes: {
-            color: ordered_product.product.color,
-            material: ordered_product.product.material,
-            print: ordered_product.product.print,
-          }
-        }
-        products << product_data
-      end
+      products = format_products_json(order)
       order_data[:products] = products
       order_history << order_data
     end
     order_history
   end
 
-  def create
-    order = Order.new(order_params)
-    shopping_cart = ShoppingCart.find_by(user_id: order.user_id)
-    cart_products = CartProduct.where(shopping_cart_id: shopping_cart.id)
-    if enough_inventory?(cart_products) && !cart_products.empty?
-      order.save
-      create_ordered_products(cart_products)
-      reset_shopping_cart(shopping_cart)
-      render json: order, status: :created
-    else
-      render status: :conflict
+  def format_products_json(order)
+    products = []
+    order.ordered_products.each do |ordered_product|
+      product_data = {
+        title: ordered_product.product.style.title,
+        size: ordered_product.size,
+        quantity: ordered_product.quantity,
+        attributes: {
+          color: ordered_product.product.color,
+          material: ordered_product.product.material,
+          print: ordered_product.product.print,
+        }
+      }
+      products << product_data
     end
+    products
   end
 
   def enough_inventory?(cart_products)
