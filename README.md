@@ -12,32 +12,32 @@ Rspec Tests:
 (If you happen to notice what is causing the issue in either of these tests, I would greatly appreciate if you pointed it out!)
 
 ## Sending Requests   
-I tested all of the following using Postman. The images show the routes and data, as well as the json responses.
-- Add a product to a cart
-![add_product](add_product_to_cart.png)
-In the rails console:
+I tested all of the following using Postman. The images show the routes and data, as well as the json responses.    
+- Add a product to a cart    
+![add_product](add_product_to_cart.png)    
+In the rails console:    
   - `ShoppingCart.first.products` to see that a product has indeed been added to the cart
   - `ShoppingCart.first` to see that the total_price and number_of_items have increased by the appropriate amount
 
 
-- Remove a product from a cart
-![remove_product](remove_product_from_cart.png)
-In the rails console:
+- Remove a product from a cart    
+![remove_product](remove_product_from_cart.png)    
+In the rails console:    
   - `ShoppingCart.first.products` to see that a product has been removed
   - `ShoppingCart.first` to see that the total_price and number_of_items have decreased by the appropriate amount
 
 
-- Create an order
-![create_order](create_order.png)
-In the rails console:
+- Create an order    
+![create_order](create_order.png)    
+In the rails console:    
   - `Order.last.ordered_products` to see that ordered_products were created along with the order (these are based on the products that were in the shopping cart)
   - `Inventory.find_by(product_id:1, size:"M")` to see that the inventory has decreased by the quantity of that product
   - `ShoppingCart.first.products` to see that the cart has been emptied
   - `ShoppingCart.first` to see that the total_price and number_of_items have reset to zero
 
 
-- View order history
-![order_history](view_order_history.png)
+- View order history    
+![order_history](view_order_history.png)    
 
 
 ## Database Structure
