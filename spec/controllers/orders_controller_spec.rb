@@ -14,7 +14,7 @@ RSpec.describe OrdersController, type: :controller do
     context "with enough available inventory" do
       it "creates a new order" do
         expect do
-          post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+          post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         end.to change { Order.count }.by 1
 
         expect(Order.last.user_id).to eq @user.id
@@ -23,7 +23,7 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       it "returns 201 and renders the order attributes" do
-        post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+        post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         expect(response.status).to eq 201
 
         response_json = JSON.parse(response.body)
@@ -34,18 +34,18 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       it "creates one ordered product per product" do
-        post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+        post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         expect(Order.last.products.count).to eq 1
       end
 
       it "updates the available inventory" do
         expect do
-          post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+          post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         end.to change { @inventory.available_inventory }.by -2
       end
 
       it "destroys the cart products and resets the shopping cart" do
-        post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+        post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         expect(@shopping_cart.products.count).to eq 0
         expect(@shopping_cart.number_of_items).to eq 0
         expect(@shopping_cart.total_price).to eq 0
@@ -55,7 +55,7 @@ RSpec.describe OrdersController, type: :controller do
     context "with not enough available inventory" do
       it "returns 409 and does not save the new order" do
         expect do
-          post :create, params: { user_id: @user.id, order: { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price } }
+          post :create, { user_id: @user.id, number_of_items: @shopping_cart.number_of_items, total_price: @shopping_cart.total_price }
         end.to change { Order.count }.by 0
 
         expect(response.status).to eq 409
